@@ -1,0 +1,107 @@
+---
+const skills = [
+  { name: "PySpark", icon: "https://cdn.simpleicons.org/apachespark" },
+  { name: "Databricks", icon: "https://cdn.simpleicons.org/databricks" },
+  { name: "Python", icon: "https://cdn.simpleicons.org/python" },
+  { name: "React", icon: "https://cdn.simpleicons.org/react" },
+  { name: "Next.js", icon: "https://cdn.simpleicons.org/nextdotjs" },
+  { name: "Tailwind CSS", icon: "https://cdn.simpleicons.org/tailwindcss" },
+  { name: "Power BI", icon: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/powerbi.svg" },
+  { name: "SQL", icon: "https://cdn.simpleicons.org/postgresql" },
+  { name: "Power Automate", icon: "https://cdn.jsdelivr.net/npm/simple-icons@latest/icons/powerautomate.svg" },
+  { name: "Git", icon: "https://cdn.simpleicons.org/git" },
+  { name: "Node.js", icon: "https://cdn.simpleicons.org/nodedotjs" },
+  { name: "MongoDB", icon: "https://cdn.simpleicons.org/mongodb" },
+  { name: "PostgreSQL", icon: "https://cdn.simpleicons.org/postgresql" },
+  { name: "Astro", icon: "https://cdn.simpleicons.org/astro" },
+  { name: "TypeScript", icon: "https://cdn.simpleicons.org/typescript" },
+  { name: "n8n", icon: "https://cdn.simpleicons.org/n8n" },
+];
+
+// Duplicamos la lista para que el marquee haga loop sin salto visible.
+const loop = [...skills, ...skills];
+---
+
+<section id="skills" class="skills">
+
+  <div class="marquee" role="list" aria-label="Tecnologías que domino">
+    <div class="marquee__track">
+      {loop.map((skill) => (
+        <div class="logo" role="listitem" title={skill.name}>
+          <img src={skill.icon} alt={skill.name} loading="lazy" width="48" height="48" />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .skills {
+    padding-block: 4rem;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+  }
+
+  .marquee__track {
+    display: flex;
+    gap: 3rem;
+    width: max-content;
+    animation: scroll 30s linear infinite;
+  }
+
+  .logo {
+    display: grid;
+    place-items: center;
+    width: 4rem;
+    height: 4rem;
+    flex-shrink: 0;
+    opacity: 0.75;
+    filter: grayscale(0.2) invert(0.85);
+    transition: opacity 200ms ease, filter 200ms ease;
+  }
+
+  .logo:hover {
+    opacity: 1;
+    filter: grayscale(0) invert(0);
+  }
+
+  .logo img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track {
+      animation: none;
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

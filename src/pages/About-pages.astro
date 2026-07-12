@@ -1,0 +1,150 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const keywords = [
+  "Data Analyst",
+  "Business Intelligence Analyst",
+  "Fraud Analyst",
+  "Full Stack Developer",
+  "SQL Developer",
+  "Power BI",
+  "Databricks",
+  "PySpark",
+  "Delta Lake",
+  "Data Visualization",
+  "KPI Monitoring",
+  "Data Engineering",
+  "Process Automation",
+  "Power Automate",
+  "React",
+  "Node.js",
+  "Express",
+  "MongoDB",
+  "REST APIs",
+  "Dashboard Development",
+  "Fraud Detection",
+  "E-commerce Analytics",
+  "Business Analytics",
+  "Software Development",
+];
+---
+
+<BaseLayout
+  title="Sobre mí | Arturo Calanche"
+  description="Analista de Datos, Analista de Fraude y Desarrollador Full Stack con experiencia en SQL, Power BI, Databricks, PySpark, React y Node.js."
+>
+  <article class="about-page">
+    <a class="back" href="/">← Volver al inicio</a>
+
+    <h1>Sobre mí</h1>
+
+    <div class="about-page__text">
+      <p>
+        Soy Arturo Calanche, Analista de Datos, Analista de Fraude y Desarrollador
+        Full Stack con experiencia en análisis de datos, Business Intelligence (BI),
+        automatización de procesos y desarrollo de aplicaciones web.
+      </p>
+
+      <p>
+        Mi trayectoria combina dos áreas que normalmente trabajan por separado: la
+        toma de decisiones basada en datos y el desarrollo de soluciones tecnológicas.
+        He trabajado analizando operaciones de e-commerce, identificando patrones de
+        fraude, optimizando procesos críticos de negocio y construyendo herramientas
+        que reducen trabajo manual mediante automatización y análisis en tiempo real.
+      </p>
+
+      <p>
+        Tengo experiencia utilizando SQL, Power BI, Databricks, PySpark, Delta Lake,
+        Power Automate y herramientas de análisis de datos para transformar grandes
+        volúmenes de información en indicadores accionables, dashboards ejecutivos y
+        procesos automatizados. He desarrollado consultas avanzadas, monitoreo de
+        KPIs, alertas operativas y flujos de análisis orientados a mejorar la
+        eficiencia y reducir riesgos.
+      </p>
+
+      <p>
+        Como desarrollador Full Stack, he construido aplicaciones utilizando
+        JavaScript, React, Node.js, Express y MongoDB, implementando autenticación
+        JWT, OAuth, APIs REST, integración con servicios de Google y arquitecturas
+        modernas orientadas a escalabilidad y mantenibilidad.
+      </p>
+
+      <p>
+        Entre mis proyectos más destacados se encuentra una solución de detección de
+        fraude para e-commerce basada en Databricks, PySpark y SQL, diseñada para
+        procesar pedidos en tiempo real, identificar comportamientos sospechosos y
+        generar alertas automatizadas para la toma de decisiones. También he
+        desarrollado aplicaciones web completas utilizando el stack MERN, aplicando
+        buenas prácticas de arquitectura, documentación técnica y experiencia de
+        usuario.
+      </p>
+
+      <p>
+        Actualmente me encuentro ampliando mis conocimientos en Análisis y Desarrollo
+        de Sistemas, fortaleciendo mi perfil en ingeniería de software, análisis de
+        datos, inteligencia de negocios y automatización empresarial.
+      </p>
+
+      <p>
+        Busco oportunidades donde pueda aportar una combinación poco común de
+        capacidades técnicas y analíticas: comprender el negocio, analizar datos,
+        identificar oportunidades de mejora y convertirlas en soluciones tecnológicas
+        que generen resultados medibles.
+      </p>
+    </div>
+
+    <ul class="about-page__keywords" aria-label="Áreas de especialización">
+      {keywords.map((keyword) => (
+        <li>{keyword}</li>
+      ))}
+    </ul>
+  </article>
+</BaseLayout>
+
+<style>
+  .about-page {
+    max-width: 48rem;
+    margin-inline: auto;
+    padding: 4rem 1.5rem;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+  }
+
+  .back:hover {
+    color: var(--color-accent);
+  }
+
+  h1 {
+    margin-bottom: 2rem;
+  }
+
+  .about-page__text p {
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    margin-bottom: 1.25rem;
+  }
+
+  .about-page__keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 2rem 0 0;
+    padding: 1.5rem 0 0;
+    border-top: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
+  }
+
+  .about-page__keywords li {
+    font-size: 0.7rem;
+    padding: 0.2rem 0.65rem;
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
+    border-radius: 999px;
+    color: var(--color-text-muted);
+  }
+</style>

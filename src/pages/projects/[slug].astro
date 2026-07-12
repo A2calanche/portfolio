@@ -1,0 +1,140 @@
+---
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+
+export async function getStaticPaths() {
+  const projects = await getCollection(
+    "projects",
+    ({ data }) => data.lang === "es" && !data.draft
+  );
+
+  return projects.map((project) => ({
+    params: { slug: project.data.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await render(project);
+---
+
+<BaseLayout
+  title={`${project.data.title} | Arturo Calanche`}
+  description={project.data.problem}
+>
+  <article class="case-study">
+    <a class="back" href="/projects">← Todos los proyectos</a>
+
+    <header>
+      <h1>{project.data.title}</h1>
+      <ul class="stack">
+        {project.data.stack.map((tech) => (
+          <li>{tech}</li>
+        ))}
+      </ul>
+    </header>
+
+    <div class="summary">
+      <div class="summary__block">
+        <h2>Problema</h2>
+        <p>{project.data.problem}</p>
+      </div>
+      <div class="summary__block">
+        <h2>Solución</h2>
+        <p>{project.data.solution}</p>
+      </div>
+      <div class="summary__block">
+        <h2>Resultado</h2>
+        <p>{project.data.result}</p>
+      </div>
+    </div>
+
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .case-study {
+    max-width: 48rem;
+    margin-inline: auto;
+    padding: 4rem 1.5rem;
+  }
+
+  .back {
+    display: inline-block;
+    margin-bottom: 2rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 0.875rem;
+  }
+
+  .back:hover {
+    color: var(--color-accent);
+  }
+
+  header {
+    margin-bottom: 2.5rem;
+  }
+
+  h1 {
+    margin: 0 0 1rem;
+    font-size: clamp(2.25rem, 5vw, 3.25rem);
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .stack li {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.65rem;
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
+    border-radius: 999px;
+    color: var(--color-text-muted);
+  }
+
+  .summary {
+    display: grid;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+    padding: 1.75rem;
+    border-radius: 1rem;
+    background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+    backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-sat, 180%));
+    -webkit-backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-sat, 180%));
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
+  }
+
+  .summary__block h2 {
+    margin: 0 0 0.4rem;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-accent-text, var(--color-accent));
+  }
+
+  .summary__block p {
+    margin: 0;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .prose :global(h2) {
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+  }
+
+  .prose :global(p) {
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+</style>

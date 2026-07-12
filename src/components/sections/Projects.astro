@@ -1,0 +1,121 @@
+---
+import { getCollection } from "astro:content";
+
+const allProjects = await getCollection(
+  "projects",
+  ({ data }) => data.lang === "es" && !data.draft
+);
+
+
+const preview = allProjects.slice(0, 3);
+---
+
+<section id="projects" class="projects">
+  <h2>Proyectos</h2>
+
+  <div class="grid">
+    {preview.map((project) => (
+      <a class="card" href={`/projects/${project.data.slug}`}>
+        <h3>{project.data.title}</h3>
+        <p>{project.data.problem}</p>
+
+        <ul class="stack">
+          {project.data.stack.slice(0, 4).map((tech) => (
+            <li>{tech}</li>
+          ))}
+        </ul>
+
+        <span class="card__link">Ver caso de estudio →</span>
+      </a>
+    ))}
+  </div>
+
+  <a class="see-all" href="/projects">Ver todos los proyectos →</a>
+</section>
+
+<style>
+  .projects {
+    padding-block: 4rem;
+    max-width: 72rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+    backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-sat, 180%));
+    -webkit-backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-sat, 180%));
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
+    box-shadow: var(--glass-shadow, none);
+    color: inherit;
+    text-decoration: none;
+    transition: transform 200ms ease, border-color 200ms ease;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
+  }
+
+  .card h3 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+  }
+
+  .card p {
+    margin: 0 0 1rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    margin: 0 0 1rem;
+    padding: 0;
+  }
+
+  .stack li {
+    font-size: 0.7rem;
+    padding: 0.15rem 0.55rem;
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
+    border-radius: 999px;
+    color: var(--color-text-muted);
+  }
+
+  .card__link {
+    font-weight: 600;
+    color: var(--color-accent-text, var(--color-accent));
+  }
+
+  .see-all {
+    display: block;
+    text-align: center;
+    margin-top: 2.5rem;
+    color: var(--color-accent-text, var(--color-accent));
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .see-all:hover {
+    text-decoration: underline;
+  }
+</style>

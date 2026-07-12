@@ -1,0 +1,223 @@
+---
+import { getCollection } from "astro:content";
+
+const roles = [
+  "Analista de Datos",
+  "Desarrollador Fullstack",
+  "Analista de Automatizaciones",
+];
+
+const projects = await getCollection(
+  "projects",
+  ({ data }) => data.lang === "es" && !data.draft
+);
+---
+
+<section id="hero" class="hero">
+  <h1>Arturo Calanche</h1>
+
+  <div class="roles">
+    {roles.map((role) => (
+      <span class="role">{role}</span>
+    ))}
+  </div>
+
+  <nav class="hero-nav">
+    <a href="#about">Sobre mi</a>
+    <a href="#skills">Skills</a>
+    <a href="#experience">Experiencia</a>
+
+    <div class="hero-dropdown">
+      <details>
+        <summary>
+          Proyectos
+          <svg class="chevron" width="10" height="6" viewBox="0 0 10 6" aria-hidden="true">
+            <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+
+        <div class="dropdown-panel">
+          <ul>
+            {projects.map((project) => (
+              <li>
+                <a href={`/projects/${project.data.slug}`}>{project.data.title}</a>
+              </li>
+            ))}
+          </ul>
+          <a class="dropdown-panel__all" href="/projects">Ver todos los proyectos →</a>
+        </div>
+      </details>
+    </div>
+
+    <a href="#contact">Contacto</a>
+  </nav>
+</section>
+
+<script>
+  const details = document.querySelectorAll<HTMLDetailsElement>(".hero-dropdown details");
+
+  document.addEventListener("click", (event) => {
+    details.forEach((el) => {
+      if (!el.contains(event.target as Node)) {
+        el.removeAttribute("open");
+      }
+    });
+  });
+</script>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    place-content: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    margin: 0;
+  }
+
+  .roles {
+    position: relative;
+    height: 2rem;
+  }
+
+  .role {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    animation: fade 9s infinite;
+    animation-fill-mode: both;
+  }
+
+  .role:nth-child(2) {
+    animation-delay: 3s;
+  }
+
+  .role:nth-child(3) {
+    animation-delay: 6s;
+  }
+
+  @keyframes fade {
+    0%, 100% { opacity: 0; }
+    10%, 25% { opacity: 1; }
+    35% { opacity: 0; }
+  }
+
+  .hero-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+
+  .hero-nav > a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 150ms ease;
+  }
+
+  .hero-nav > a:hover {
+    color: var(--color-accent);
+  }
+
+  .hero-dropdown {
+    position: relative;
+  }
+
+  .hero-dropdown summary {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    list-style: none;
+    transition: color 150ms ease;
+  }
+
+  .hero-dropdown summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .hero-dropdown summary:hover {
+    color: var(--color-accent);
+  }
+
+  .hero-dropdown[open] .chevron {
+    transform: rotate(180deg);
+  }
+
+  .chevron {
+    transition: transform 200ms ease;
+  }
+
+  .dropdown-panel {
+    position: absolute;
+    top: calc(100% + 0.75rem);
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: 16rem;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    text-align: left;
+    background: var(--glass-bg-solid, rgba(0, 0, 0, 0.8));
+    backdrop-filter: blur(16px) saturate(var(--glass-sat, 150%));
+    -webkit-backdrop-filter: blur(16px) saturate(var(--glass-sat, 150%));
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+    box-shadow: var(--glass-shadow, 0 8px 32px rgba(0, 0, 0, 0.3));
+  }
+
+  .dropdown-panel ul {
+    list-style: none;
+    margin: 0 0 0.5rem;
+    padding: 0;
+    display: grid;
+    gap: 0.15rem;
+  }
+
+  .dropdown-panel li a {
+    display: block;
+    padding: 0.5rem 0.65rem;
+    border-radius: 0.5rem;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+  }
+
+  .dropdown-panel li a:hover {
+    color: var(--color-text);
+    background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+  }
+
+  .dropdown-panel__all {
+    display: block;
+    padding: 0.5rem 0.65rem;
+    margin-top: 0.35rem;
+    border-top: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+    color: var(--color-accent-text, var(--color-accent));
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-decoration: none;
+  }
+
+  .dropdown-panel__all:hover {
+    text-decoration: underline;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .role {
+      animation: none;
+      opacity: 1;
+      position: static;
+    }
+    .roles {
+      height: auto;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+</style>

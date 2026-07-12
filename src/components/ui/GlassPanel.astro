@@ -1,0 +1,49 @@
+---
+interface Props {
+  class?: string;
+  tag?: keyof HTMLElementTagNameMap;
+}
+
+const {
+  class: className = "",
+  tag = "div",
+} = Astro.props;
+
+const Tag = tag;
+---
+
+<Tag class={`glass-panel ${className}`}>
+  <slot />
+</Tag>
+
+<style>
+  .glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur))
+      saturate(var(--glass-sat));
+    -webkit-backdrop-filter: blur(var(--glass-blur))
+      saturate(var(--glass-sat));
+
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
+
+    border-radius: 1rem;
+
+    position: relative;
+    overflow: hidden;
+  }
+
+  .glass-panel::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.15),
+      rgba(255, 255, 255, 0)
+    );
+
+    pointer-events: none;
+  }
+</style>

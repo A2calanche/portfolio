@@ -1,0 +1,164 @@
+---
+// Reemplazá con tu experiencia real. Orden: más reciente primero.
+interface Job {
+  role: string;
+  company: string;
+  period: string;
+  description: string;
+  stack?: string[];
+}
+
+const jobs: Job[] = [
+  {
+    role: "Asistente Administrativo | E-commerce Operations, Fraud Prevention & Data Analysis",
+    company: "Bemol Online",
+    period: "2023 — 2026",
+    description:
+      "Actué en una función multidisciplinaria dentro de las operaciones de e-commerce, combinando análisis de pedidos, prevención de fraude, análisis de datos y automatización de procesos. Analicé transacciones y patrones de compra para identificar riesgos operativos y actividades sospechosas, apoyando la toma de decisiones sobre liberación o cancelación de pedidos. Desarrollé consultas SQL, dashboards en Power BI y procesos automatizados utilizando Databricks, PySpark y Power Automate para generar reportes en tiempo real, monitorear KPIs y optimizar flujos operativos. También participé en la mejora continua de procesos internos, reduciendo tareas manuales y aumentando la eficiencia del equipo.",
+    stack: [
+      "SQL",
+      "Power BI",
+      "Databricks",
+      "PySpark",
+      "Delta Lake",
+      "Power Automate",
+      "Python",
+      "Excel",
+      "Business Intelligence",
+      "Fraud Analysis",
+      "E-commerce",
+    ],
+  },
+];
+---
+
+<section id="experience" class="experience">
+  <h2>Experiencia</h2>
+
+  <ol class="timeline">
+    {jobs.map((job) => (
+      <li class="timeline__item">
+        <div class="timeline__marker" aria-hidden="true"></div>
+
+        <div class="timeline__content">
+          <div class="timeline__header">
+            <h3>{job.role}</h3>
+            <span class="timeline__period">{job.period}</span>
+          </div>
+
+          <p class="timeline__company">{job.company}</p>
+          <p class="timeline__description">{job.description}</p>
+
+          {job.stack && (
+            <ul class="timeline__stack">
+              {job.stack.map((tech) => (
+                <li>{tech}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  .experience {
+    padding-block: 4rem;
+    max-width: 48rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+
+  .timeline::before {
+    content: "";
+    position: absolute;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    left: 0.4rem;
+    width: 2px;
+    background: var(--glass-border, rgba(255, 255, 255, 0.18));
+  }
+
+  .timeline__item {
+    position: relative;
+    padding-left: 2.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .timeline__item:last-child {
+    margin-bottom: 0;
+  }
+
+  .timeline__marker {
+    position: absolute;
+    top: 0.35rem;
+    left: 0;
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 0 4px var(--color-accent-glass, rgba(168, 85, 247, 0.15));
+  }
+
+  .timeline__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  .timeline__header h3 {
+    margin: 0;
+    font-size: 1.25rem;
+  }
+
+  .timeline__period {
+    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    font-family: var(--font-mono, monospace);
+    white-space: nowrap;
+  }
+
+  .timeline__company {
+    margin: 0.25rem 0 0.75rem;
+    color: var(--color-accent-text, var(--color-accent));
+    font-weight: 600;
+  }
+
+  .timeline__description {
+    margin: 0 0 0.75rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+  }
+
+  .timeline__stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .timeline__stack li {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
+    border-radius: 999px;
+    color: var(--color-text-muted);
+  }
+</style>

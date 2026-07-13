@@ -2,15 +2,16 @@
 import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
+
 const projects = defineCollection({
   loader: glob({
     pattern: '**/*.md',
     base: './src/content/projects',
-    generateId: ({ entry }) => entry, // path completo → nunca colisiona
+    generateId: ({ entry }) => entry, 
   }),
   schema: z.object({
     lang: z.enum(['es', 'en', 'pt']),
-    slug: z.string(), // vos controlás la URL, separado del id interno
+    slug: z.string(), 
     title: z.string(),
     problem: z.string(),
     solution: z.string(),
@@ -20,4 +21,20 @@ const projects = defineCollection({
   }),
 });
 
-export const collections = { projects };
+const experience = defineCollection({
+  loader: glob({
+    pattern: '**/*.md',
+    base: './src/content/experience',
+    generateId: ({ entry }) => entry, // path completo → nunca colisiona
+  }),
+  schema: z.object({
+    lang: z.enum(['es', 'en', 'pt']),
+    company: z.string(),
+    role: z.string(),
+    period: z.string(),
+    stack: z.array(z.string()),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { projects, experience };

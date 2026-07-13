@@ -1,57 +1,33 @@
 ---
-// Reemplazá con tu experiencia real. Orden: más reciente primero.
-interface Job {
-  role: string;
-  company: string;
-  period: string;
-  description: string;
-  stack?: string[];
-}
+import { getCollection } from "astro:content";
 
-const jobs: Job[] = [
-  {
-    role: "Asistente Administrativo | E-commerce Operations, Fraud Prevention & Data Analysis",
-    company: "Bemol Online",
-    period: "2023 — 2026",
-    description:
-      "Actué en una función multidisciplinaria dentro de las operaciones de e-commerce, combinando análisis de pedidos, prevención de fraude, análisis de datos y automatización de procesos. Analicé transacciones y patrones de compra para identificar riesgos operativos y actividades sospechosas, apoyando la toma de decisiones sobre liberación o cancelación de pedidos. Desarrollé consultas SQL, dashboards en Power BI y procesos automatizados utilizando Databricks, PySpark y Power Automate para generar reportes en tiempo real, monitorear KPIs y optimizar flujos operativos. También participé en la mejora continua de procesos internos, reduciendo tareas manuales y aumentando la eficiencia del equipo.",
-    stack: [
-      "SQL",
-      "Power BI",
-      "Databricks",
-      "PySpark",
-      "Delta Lake",
-      "Power Automate",
-      "Python",
-      "Excel",
-      "Business Intelligence",
-      "Fraud Analysis",
-      "E-commerce",
-    ],
-  },
-];
+const allExperience = await getCollection("experience",
+  ({ data }) => data.lang === "es" && !data.draft
+);
+
+const preview = allExperience.slice(0, 3);
+
 ---
 
 <section id="experience" class="experience">
   <h2>Experiencia</h2>
 
   <ol class="timeline">
-    {jobs.map((job) => (
+    {preview .map((job) => (
       <li class="timeline__item">
         <div class="timeline__marker" aria-hidden="true"></div>
 
         <div class="timeline__content">
           <div class="timeline__header">
-            <h3>{job.role}</h3>
-            <span class="timeline__period">{job.period}</span>
+            <h3>{job.data.role}</h3>
+            <span class="timeline__period">{job.data.period}</span>
           </div>
 
-          <p class="timeline__company">{job.company}</p>
-          <p class="timeline__description">{job.description}</p>
+          <p class="timeline__company">{job.data.company}</p>
 
-          {job.stack && (
+          {job.data.stack && (
             <ul class="timeline__stack">
-              {job.stack.map((tech) => (
+              {job.data.stack.map((tech) => (
                 <li>{tech}</li>
               ))}
             </ul>

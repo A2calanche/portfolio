@@ -31,13 +31,15 @@ const keywords = [
   <div class="about__inner">
     <h2>Sobre mí</h2>
 
-    <div class="about__text">
-      <p>
-        Soy Arturo Calanche, Analista de Datos, Analista de Fraude y Desarrollador
-        Full Stack con experiencia en análisis de datos, Business Intelligence (BI),
-        automatización de procesos y desarrollo de aplicaciones web.
-      </p>
+    <p class="about__summary">
+      Soy Arturo Calanche, Analista de Datos, Analista de Fraude y Desarrollador
+      Full Stack. Combino la toma de decisiones basada en datos con el desarrollo
+      de soluciones tecnológicas: he construido pipelines de detección de fraude
+      sobre Databricks y PySpark, dashboards ejecutivos en Power BI, y aplicaciones
+      web completas con el stack MERN.
+    </p>
 
+    <div id="about-extra" class="about__extra" hidden>
       <p>
         Mi trayectoria combina dos áreas que normalmente trabajan por separado: la
         toma de decisiones basada en datos y el desarrollo de soluciones tecnológicas.
@@ -84,15 +86,41 @@ const keywords = [
         identificar oportunidades de mejora y convertirlas en soluciones tecnológicas
         que generen resultados medibles.
       </p>
+
+      <ul class="about__keywords" aria-label="Áreas de especialización">
+        {keywords.map((keyword) => (
+          <li>{keyword}</li>
+        ))}
+      </ul>
     </div>
 
-    <ul class="about__keywords" aria-label="Áreas de especialización">
-      {keywords.map((keyword) => (
-        <li>{keyword}</li>
-      ))}
-    </ul>
+    <button id="about-toggle" class="about__toggle" type="button" aria-expanded="false" aria-controls="about-extra">
+      Leer más ↓
+    </button>
   </div>
 </section>
+
+<script>
+  const button = document.getElementById("about-toggle");
+  const extra = document.getElementById("about-extra");
+
+  button?.addEventListener("click", () => {
+    const isHidden = extra?.hasAttribute("hidden");
+
+    if (isHidden) {
+      extra?.removeAttribute("hidden");
+      button.textContent = "Leer menos ↑";
+      button.setAttribute("aria-expanded", "true");
+    } else {
+      extra?.setAttribute("hidden", "");
+      button.textContent = "Leer más ↓";
+      button.setAttribute("aria-expanded", "false");
+      // Volver a llevar el scroll al inicio de la sección al colapsar,
+      // para que no quede la vista "flotando" en un punto vacío.
+      document.getElementById("about")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+</script>
 
 <style>
   .about {
@@ -100,17 +128,28 @@ const keywords = [
   }
 
   .about__inner {
-    max-width: 48rem;
+    max-width: 42rem;
     margin-inline: auto;
     padding-inline: 1.5rem;
+    text-align: center;
   }
 
   h2 {
-    text-align: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 
-  .about__text p {
+  .about__summary {
+    color: var(--color-text-muted);
+    line-height: 1.75;
+    margin-bottom: 1rem;
+  }
+
+  .about__extra {
+    text-align: left;
+    margin-top: 1.5rem;
+  }
+
+  .about__extra p {
     color: var(--color-text-muted);
     line-height: 1.75;
     margin-bottom: 1.25rem;
@@ -121,7 +160,7 @@ const keywords = [
     flex-wrap: wrap;
     gap: 0.5rem;
     list-style: none;
-    margin: 2rem 0 0;
+    margin: 1.5rem 0 0;
     padding: 1.5rem 0 0;
     border-top: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
   }
@@ -132,5 +171,20 @@ const keywords = [
     border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
     border-radius: 999px;
     color: var(--color-text-muted);
+  }
+
+  .about__toggle {
+    margin-top: 1.5rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-accent-text, var(--color-accent));
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+  }
+
+  .about__toggle:hover {
+    text-decoration: underline;
   }
 </style>

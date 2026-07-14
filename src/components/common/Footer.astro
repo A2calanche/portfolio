@@ -1,0 +1,123 @@
+---
+const links = [
+  {
+    label: "Email",
+    value: "tu-email-real@dominio.com",
+    href: "mailto:tu-email-real@dominio.com",
+  },
+  {
+    label: "WhatsApp",
+    value: "Escribime directo",
+    href: "https://wa.me/58XXXXXXXXXX",
+  },
+  {
+    label: "GitHub",
+    value: "@A2calanche",
+    href: "https://github.com/A2calanche",
+  },
+  {
+    label: "LinkedIn",
+    value: "/in/arturo-calanche",
+    href: "https://linkedin.com/in/arturo-calanche",
+  },
+];
+
+const year = new Date().getFullYear();
+---
+
+<footer id="contact" class="site-footer">
+  <div class="footer__inner">
+    <h2>Contacto</h2>
+    <p class="footer__intro">
+      ¿Tenés un proyecto en mente o una oportunidad para conversar? Escribime
+      por cualquiera de estos medios.
+    </p>
+
+    <div class="footer__grid">
+      {links.map((link) => (
+        <a
+          class="footer__card"
+          href={link.href}
+          target={link.href.startsWith("http") ? "_blank" : undefined}
+          rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+        >
+          <span class="footer__label">{link.label}</span>
+          <span class="footer__value">{link.value}</span>
+        </a>
+      ))}
+    </div>
+
+    <p class="footer__copyright">© {year} Arturo Calanche</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    padding-block: 4rem 3rem;
+    border-top: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+  }
+
+  .footer__inner {
+    max-width: 42rem;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+    text-align: center;
+  }
+
+  h2 {
+    margin-bottom: 0.75rem;
+  }
+
+  .footer__intro {
+    color: var(--color-text-muted);
+    margin-bottom: 2.5rem;
+  }
+
+  .footer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+  }
+
+  .footer__card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 1.25rem;
+    border-radius: 1rem;
+    background: var(--glass-bg, rgba(255, 255, 255, 0.08));
+    backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-sat, 180%));
+    -webkit-backdrop-filter: blur(var(--glass-blur, 12px)) saturate(var(--glass-sat, 180%));
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
+    color: inherit;
+    text-decoration: none;
+    text-align: left;
+    transition: transform 200ms ease, border-color 200ms ease;
+  }
+
+  .footer__card:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-accent);
+  }
+
+  .footer__label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-accent-text, var(--color-accent));
+    font-weight: 600;
+  }
+
+  .footer__value {
+    color: var(--color-text);
+    font-size: 0.9rem;
+    word-break: break-word;
+  }
+
+  .footer__copyright {
+    color: var(--color-text-muted);
+    font-size: 0.8rem;
+    margin: 0;
+  }
+</style>

@@ -1,0 +1,271 @@
+---
+const faqs = [
+  {
+    question: "¿Qué servicios ofrecés?",
+    answer:
+      "Desarrollo web full-stack, automatización de procesos con IA, y análisis de datos / BI. Podés ver ejemplos concretos en la sección de Proyectos.",
+  },
+  {
+    question: "¿Cómo puedo contactarte?",
+    answer:
+      "Por email o WhatsApp, los encontrás en la sección de Contacto al final de la página.",
+  },
+  {
+    question: "¿Con qué tecnologías trabajás?",
+    answer:
+      "Python, PySpark, Databricks, SQL, Power BI, JavaScript/TypeScript, React, Node.js y Astro, entre otras. Mirá la sección de Skills para el detalle completo.",
+  },
+  {
+    question: "¿Hacés proyectos freelance?",
+    answer:
+      "Sí, estoy disponible para proyectos freelance de desarrollo web y automatización. Escribime por WhatsApp o email para conversar sobre tu caso.",
+  },
+];
+---
+
+<div id="chatbot" class="chatbot">
+  <div id="chatbot-panel" class="chatbot__panel" hidden>
+    <div class="chatbot__header">
+      <div class="chatbot__header-info">
+        <span class="chatbot__avatar" aria-hidden="true">🤖</span>
+        <div>
+          <p class="chatbot__name">Asistente de Arturo</p>
+          <p class="chatbot__status">● En línea</p>
+        </div>
+      </div>
+      <button id="chatbot-close" class="chatbot__close" type="button" aria-label="Cerrar chat">
+        ✕
+      </button>
+    </div>
+
+    <div id="chatbot-messages" class="chatbot__messages">
+      <div class="chatbot__bubble chatbot__bubble--bot">
+        ¡Hola! Soy el asistente de Arturo. ¿En qué puedo ayudarte? 👋
+      </div>
+
+      <div id="chatbot-faq" class="chatbot__faq">
+        {faqs.map((faq, i) => (
+          <button class="chatbot__faq-btn" type="button" data-faq-index={i}>
+            {faq.question}
+          </button>
+        ))}
+      </div>
+
+      <button id="chatbot-reset" class="chatbot__reset" type="button" hidden>
+        ← Volver a las preguntas
+      </button>
+    </div>
+  </div>
+
+  <button id="chatbot-toggle" class="chatbot__toggle" type="button" aria-label="Abrir chat">
+    <span class="chatbot__toggle-icon" aria-hidden="true">💬</span>
+  </button>
+</div>
+
+<script define:vars={{ faqs }}>
+  const toggle = document.getElementById("chatbot-toggle");
+  const closeBtn = document.getElementById("chatbot-close");
+  const panel = document.getElementById("chatbot-panel");
+  const messages = document.getElementById("chatbot-messages");
+  const faqContainer = document.getElementById("chatbot-faq");
+  const resetBtn = document.getElementById("chatbot-reset");
+
+  function openPanel() {
+    panel.hidden = false;
+    toggle.setAttribute("aria-label", "Cerrar chat");
+  }
+
+  function closePanel() {
+    panel.hidden = true;
+    toggle.setAttribute("aria-label", "Abrir chat");
+  }
+
+  toggle?.addEventListener("click", () => {
+    if (panel.hidden) openPanel();
+    else closePanel();
+  });
+
+  closeBtn?.addEventListener("click", closePanel);
+
+  function addBubble(text, from) {
+    const bubble = document.createElement("div");
+    bubble.className = `chatbot__bubble chatbot__bubble--${from}`;
+    bubble.textContent = text;
+    messages.insertBefore(bubble, resetBtn);
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  faqContainer?.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+    const index = target.dataset.faqIndex;
+    if (index === undefined) return;
+
+    const faq = faqs[Number(index)];
+    addBubble(faq.question, "user");
+    addBubble(faq.answer, "bot");
+
+    faqContainer.hidden = true;
+    resetBtn.hidden = false;
+  });
+
+  resetBtn?.addEventListener("click", () => {
+    faqContainer.hidden = false;
+    resetBtn.hidden = true;
+  });
+</script>
+
+<style>
+  .chatbot {
+    position: fixed;
+    bottom: 1.5rem;
+    left: 1.5rem;
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .chatbot__toggle {
+    display: grid;
+    place-items: center;
+    width: 3.5rem;
+    height: 3.5rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: var(--color-text-inverse, white);
+    font-size: 1.5rem;
+    box-shadow: var(--glass-shadow, 0 8px 32px rgba(0, 0, 0, 0.3));
+    cursor: pointer;
+    transition: transform 200ms ease;
+    order: 2;
+  }
+
+  .chatbot__toggle:hover {
+    transform: scale(1.06);
+  }
+
+  .chatbot__panel {
+    order: 1;
+    width: min(20rem, calc(100vw - 3rem));
+    max-height: 28rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    background: var(--glass-bg-solid, rgba(0, 0, 0, 0.85));
+    backdrop-filter: blur(var(--glass-blur, 16px)) saturate(var(--glass-sat, 150%));
+    -webkit-backdrop-filter: blur(var(--glass-blur, 16px)) saturate(var(--glass-sat, 150%));
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.1));
+    box-shadow: var(--glass-shadow, 0 8px 32px rgba(0, 0, 0, 0.3));
+  }
+
+  .chatbot__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1rem;
+    background: var(--color-accent);
+  }
+
+  .chatbot__header-info {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .chatbot__avatar {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background: white;
+    font-size: 1rem;
+  }
+
+  .chatbot__name {
+    margin: 0;
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+  }
+
+  .chatbot__status {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.7rem;
+  }
+
+  .chatbot__close {
+    color: white;
+    font-size: 1.1rem;
+    cursor: pointer;
+  }
+
+  .chatbot__messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .chatbot__bubble {
+    max-width: 85%;
+    padding: 0.6rem 0.85rem;
+    border-radius: 1rem 1rem 1rem 0.25rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .chatbot__bubble--bot {
+    align-self: flex-start;
+    background: var(--glass-bg, rgba(255, 255, 255, 0.1));
+    color: var(--color-text);
+  }
+
+  .chatbot__bubble--user {
+    align-self: flex-end;
+    border-radius: 1rem 1rem 0.25rem 1rem;
+    background: var(--color-accent);
+    color: white;
+  }
+
+  .chatbot__faq {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .chatbot__faq-btn {
+    text-align: left;
+    padding: 0.6rem 0.85rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--color-accent);
+    color: var(--color-accent-text, var(--color-accent));
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: transparent;
+    cursor: pointer;
+    transition: background-color 150ms ease;
+  }
+
+  .chatbot__faq-btn:hover {
+    background: var(--color-accent-glass, rgba(168, 85, 247, 0.1));
+  }
+
+  .chatbot__reset {
+    align-self: center;
+    margin-top: 0.5rem;
+    padding: 0.4rem 0.8rem;
+    border-radius: 0.75rem;
+    border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.18));
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    cursor: pointer;
+  }
+</style>

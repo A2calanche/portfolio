@@ -24,6 +24,9 @@ const preview = allExperience.slice(0, 3);
           </div>
 
           <p class="timeline__company">{job.data.company}</p>
+          <ul class= "timeline__responsabilities">{job.data.responsabilities.map((resp) => (
+            <li>{resp}</li>
+          ))}</ul>
 
           {job.data.stack && (
             <ul class="timeline__stack">

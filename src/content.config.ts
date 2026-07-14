@@ -25,7 +25,7 @@ const experience = defineCollection({
   loader: glob({
     pattern: '**/*.md',
     base: './src/content/experience',
-    generateId: ({ entry }) => entry, // path completo → nunca colisiona
+    generateId: ({ entry }) => entry, 
   }),
   schema: z.object({
     lang: z.enum(['es', 'en', 'pt']),
@@ -33,6 +33,8 @@ const experience = defineCollection({
     role: z.string(),
     period: z.string(),
     stack: z.array(z.string()),
+    description: z.string(),
+    responsabilities: z.array(z.string()),
     draft: z.boolean().default(false),
   }),
 });
